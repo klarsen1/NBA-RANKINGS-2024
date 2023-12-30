@@ -2,6 +2,7 @@ library(ggplot2)
 library(ggimage)
 library(ggforce)
 library(concaveman)
+library(scales)
 
 ################## Work directory (change this)
 setwd("/Users/kim.larsen/Documents/Code/NBA-RANKINGS-2024/")
@@ -23,17 +24,16 @@ wins <- group_by(probabilities, team_abbreviation, conference, home_logo) %>%
 set.seed(2022)
 km <- kmeans(dplyr::select(wins, win_rate, pred_win_rate), centers=5, nstart=50, iter.max=100)
 
-################## Scatter plot
-ggplot(wins, aes(x=pred_rank, y=rank)) +
-  xlab("What the Model Expected") + ylab("Season Rank Basedd on Wins and Losses") +
+################## Scatter plot based on raw rates
+ggplot(wins, aes(x=pred_win_rate, y=win_rate)) +
+  xlab("What the Model Expected") + ylab(paste0(seasontxt, "  Season Win Rate (as of ",Sys.Date(), ")")) +
   geom_point(size = 2, color = 'black') +
   geom_abline(intercept = 0, slope = 1, size = 0.5, linetype=2) +
   geom_image(aes(image=home_logo), size=.06) + 
-  scale_y_continuous(breaks=seq(from=0, to=30, by=3)) +
-  scale_x_continuous(breaks=seq(from=0, to=30, by=3)) +
+  scale_y_continuous(breaks=seq(from=0, to=1, by=.1), limits=c(0,1), labels=percent_format(accuracy=1)) +
+  scale_x_continuous(breaks=seq(from=0, to=1, by=.1), limits=c(0,1), labels=percent_format(accuracy=1)) +
   geom_mark_hull(aes(color = as.factor(km$cluster)), expand = unit(3.5,"mm"))+
   theme(legend.position = "none")
-  
 
 ggsave(paste0("./pred/plot", "_",Sys.Date(),".jpg"))
   

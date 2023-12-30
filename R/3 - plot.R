@@ -18,11 +18,10 @@ wins <- group_by(probabilities, team_abbreviation, conference, home_logo) %>%
          pred_win_rate=pred_wins/games, 
          pred_rank=rank(pred_win_rate, ties="max")-1,
          rank=rank(win_rate,ties.method = "max")-1,
-         record=paste0(round(wins), "-", games-round(wins)), 
-         cluster=case_when(pred_rank>21 & rank>21 ~ "A", 
-                           pred_rank>14 & rank>14 ~ "B", 
-                           pred_rank>10 | rank>10 ~ "C", 
-                           TRUE ~ "D"))
+         record=paste0(round(wins), "-", games-round(wins)))
+
+set.seed(2022)
+km <- kmeans(dplyr::select(wins, win_rate, pred_win_rate), centers=5, nstart=100, iter.max=100)
 
 ################## Scatter plot
 ggplot(wins, aes(x=pred_rank, y=rank)) +
@@ -32,7 +31,7 @@ ggplot(wins, aes(x=pred_rank, y=rank)) +
   geom_image(aes(image=home_logo), size=.06) + 
   scale_y_continuous(breaks=seq(from=0, to=30, by=3)) +
   scale_x_continuous(breaks=seq(from=0, to=30, by=3)) +
-  geom_mark_hull(aes(color = as.factor(cluster)), expand = unit(3.5,"mm"))+
+  geom_mark_hull(aes(color = as.factor(km$cluster)), expand = unit(3.5,"mm"))+
   theme(legend.position = "none")
   
 

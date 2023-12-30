@@ -26,7 +26,7 @@ wins <- group_by(probabilities, team_abbreviation, conference, home_logo) %>%
 
 ################## Scatter plot
 ggplot(wins, aes(x=pred_rank, y=rank)) +
-  xlab("Predicted Rank") + ylab("Actual Current Rank") +
+  xlab("What the Model Expected") + ylab("Season Rank Basedd on Wins and Losses") +
   geom_point(size = 2, color = 'black') +
   geom_abline(intercept = 0, slope = 1, size = 0.5, linetype=2) +
   geom_image(aes(image=home_logo), size=.06) + 

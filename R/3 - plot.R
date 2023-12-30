@@ -21,7 +21,7 @@ wins <- group_by(probabilities, team_abbreviation, conference, home_logo) %>%
          record=paste0(round(wins), "-", games-round(wins)))
 
 set.seed(2022)
-km <- kmeans(dplyr::select(wins, win_rate, pred_win_rate), centers=5, nstart=100, iter.max=100)
+km <- kmeans(dplyr::select(wins, win_rate, pred_win_rate), centers=5, nstart=50, iter.max=100)
 
 ################## Scatter plot
 ggplot(wins, aes(x=pred_rank, y=rank)) +

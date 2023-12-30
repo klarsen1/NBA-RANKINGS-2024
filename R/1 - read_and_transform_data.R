@@ -139,6 +139,7 @@ box_df <-
          stls=if_else(total_stls>0, stl/sum(stl), 0), 
          ptss=if_else(total_pts>0, pts/sum(pts), 0), 
          tpss=if_else(total_tp>0, fg3_made/total_tp, 0)) %>%
+  replace_na(list(min=0)) %>%
   filter(!(team_abbreviation %in% c("LEB", "USA", "WORLD", "GIA", "DUR", "WEST", "EAST"))) %>%
   filter(min>0) %>%
   filter(!between(game_date, as.Date("2020-07-09"), as.Date("2020-10-11"))) %>%

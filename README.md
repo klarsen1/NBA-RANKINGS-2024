@@ -14,9 +14,12 @@ The model is based on a two-step procedure:
 
 - Create PCAs based on box score statistics and player height. The PCAs capture player characteristics and are based on normalized features, such as three-point tendency, share of rebounds, true shooting percentage, etc.
 
+- The PCAs are based on data leading up to the game. No data from the game itself is used, except for injury status.
+
 - Train a shallow xgBoost model using the PCAs and a home court indicator. The model is trained on data since the 2014-2015 season. One-game-ahead in-sample AUC IS 0.73 and the one-game-ahead out-of-sample AUC is 0.71.
 
 - Team performance is not included in the models. Predictions are purely based on roster composition and home-court advantage.
+
 
 Benefits of this approach:
 

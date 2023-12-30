@@ -21,7 +21,7 @@ wins <- group_by(probabilities, team_abbreviation, conference, home_logo) %>%
          record=paste0(round(wins), "-", games-round(wins)), 
          cluster=case_when(pred_rank>21 & rank>21 ~ "A", 
                            pred_rank>14 & rank>14 ~ "B", 
-                           pred_rank>10 & rank>10 ~ "C", 
+                           pred_rank>10 | rank>10 ~ "C", 
                            TRUE ~ "D"))
 
 ################## Scatter plot

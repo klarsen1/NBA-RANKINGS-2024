@@ -179,8 +179,9 @@ rolling_means <-
                 season_type, team_score, team_abbreviation, playoffs,
                 height_cm, playoffs, home, min, athlete_headshot_href, win) %>%
   arrange(athlete_display_name, game_date) %>%
-  mutate(mins=lag(frollsum(min, ma_window, align = "right", algo="exact")),
-         across(all_of(pca_vars), ~ lag(frollsum(.x*min, ma_window, align = "right", algo="exact"))/mins), 
+  mutate(min_raw=min,
+         mins=lag(frollsum(min, ma_window, align = "right", algo="exact")),
+         across(all_of(pca_vars), ~ lag(frollsum(.x*min_raw, ma_window, align = "right", algo="exact"))/mins), 
          min=lag(frollmean(min, ma_window, align = "right", algo="exact"))) %>%
   filter(row_number()>ma_window) %>%
   group_by(season) %>%  
@@ -190,7 +191,7 @@ rolling_means <-
   
 rolling_pcas <- bind_cols(data.frame(predict(pca, rolling_means)), rolling_means) %>% 
                 dplyr::select(game_id, game_date, win, playoffs, 
-                              team_abbreviation, team_score, min, athlete_display_name, athlete_headshot_href,
+                              team_abbreviation, team_score, min, min_raw, athlete_display_name, athlete_headshot_href,
                               season, season_type, home, height_cm, starts_with("PC")) %>%
   arrange(athlete_display_name, game_date)
 rm(rolling_means)

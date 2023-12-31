@@ -12,7 +12,7 @@ How the Model Works
 
 The model is based on a two-step procedure:
 
-- Create PCAs based on box score statistics and player height. The PCAs capture player characteristics and are based on normalized features, such as three-point tendency, share of rebounds, true shooting percentage, etc.
+- Create PCAs using on box score statistics and player height. The PCAs capture player characteristics and are based on normalized features, such as three-point tendency, share of rebounds, true shooting percentage, etc.
 
 - The PCAs are based on data leading up to the game. No data from the game itself is used, except for injury status.
 
@@ -39,7 +39,7 @@ About the code
 The step that reads the raw data from the hoopR package, creates the features, and organizes the data for training.
 
 2 - train_model.R:
-Trains and validates the xgBoost model
+Trains and validates the xgBoost model.
 
 3 - plot.R
 Creates the scatter plot to analyze predicted versus actual team rankings.

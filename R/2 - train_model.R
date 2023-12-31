@@ -64,7 +64,7 @@ for (i in min(validation_by_season$season):max(validation_by_season$season)){
 ggplot(data=aucs, aes(x=season, y=auc)) + geom_bar(stat="identity") + 
   ylab("Validation AUC") + xlab("Season") +
   scale_x_continuous(breaks=seq(from=min(base_df$season), to=max(base_df$season), by=1)) + 
-  scale_y_continuous(breaks=seq(from=.0, to=.8, by=.1))
+  scale_y_continuous(breaks=seq(from=.0, to=.8, by=.05))
 
 
 ################### Save probabilities and add logos and conference information

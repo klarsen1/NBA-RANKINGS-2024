@@ -26,7 +26,7 @@ km <- kmeans(dplyr::select(wins, win_rate, pred_win_rate), centers=5, nstart=50,
 
 ################## Scatter plot based on raw rates
 ggplot(wins, aes(x=pred_win_rate, y=win_rate)) +
-  xlab("What the Model Expected (Based on Rosters)") + ylab(paste0(seasontxt, "  Season Win Rate (as of ",Sys.Date(), ")")) +
+  xlab("What the Model Expected (Based on Rosters)") + ylab(paste0(seasontxt, "  Season Win Rate (as of ",Sys.Date()-1, ")")) +
   geom_point(size = 2, color = 'black') +
   geom_image(aes(image=home_logo), size=.06) + 
   scale_y_continuous(breaks=seq(from=0, to=1, by=.1), limits=c(0,1), labels=percent_format(accuracy=1)) +
@@ -37,6 +37,12 @@ ggplot(wins, aes(x=pred_win_rate, y=win_rate)) +
   geom_text(
     x = .9, y = .9,
     label = "Top Teams",
+    color = "black", 
+    fontface="bold"
+  ) + 
+  geom_text(
+    x = .15, y = .05,
+    label = "Worst Teams",
     color = "black", 
     fontface="bold"
   )

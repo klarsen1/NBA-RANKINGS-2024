@@ -42,7 +42,7 @@ ggplot(wins, aes(x=pred_win_rate, y=win_rate)) +
   ) + 
   geom_text(
     x = .15, y = .05,
-    label = "Worst Teams",
+    label = "Bottom Teams",
     color = "black", 
     fontface="bold"
   )

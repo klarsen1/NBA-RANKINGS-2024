@@ -11,6 +11,7 @@ options(dplyr.summarise.inform = FALSE)
 
 ################## Actual and predicted wins
 wins <- group_by(probabilities, team_abbreviation, conference, home_logo) %>%
+  filter(game_date>as.Date("2024-01-01")) %>%
   summarise(wins=sum(win), 
             pred_wins=sum(pred_win), 
             games=n()) %>%
@@ -35,14 +36,8 @@ ggplot(wins, aes(x=pred_win_rate, y=win_rate)) +
   theme(legend.position = "none") + 
   geom_smooth(method = "lm", fullrange=TRUE) + 
   geom_text(
-    x = .9, y = .9,
+    x = .8, y = .8,
     label = "Top Teams",
-    color = "black", 
-    fontface="bold"
-  ) + 
-  geom_text(
-    x = .15, y = .05,
-    label = "Bottom Teams",
     color = "black", 
     fontface="bold"
   )

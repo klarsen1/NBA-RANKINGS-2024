@@ -42,6 +42,23 @@ ggplot(wins, aes(x=pred_win_rate, y=win_rate)) +
     fontface="bold"
   )
 
+################## Scatter plot based on raw rates
+ggplot(wins, aes(x=pred_win_rate, y=win_rate)) +
+  xlab("What the Model Expected (Based on Rosters)") + ylab("Win Rate (2024 games)") +
+  geom_point(size = 2, color = 'black') +
+  geom_image(aes(image=home_logo), size=.06) + 
+  scale_y_continuous(breaks=seq(from=0, to=1, by=.1), limits=c(0,1), labels=percent_format(accuracy=1)) +
+  scale_x_continuous(breaks=seq(from=0, to=1, by=.1), limits=c(0,1), labels=percent_format(accuracy=1)) +
+  geom_mark_hull(aes(color = as.factor(km$cluster)), expand = unit(3.5,"mm"))+
+  theme(legend.position = "none") + 
+  geom_smooth(method = "lm", fullrange=TRUE) + 
+  geom_text(
+    x = .8, y = .8,
+    label = "Top Teams",
+    color = "black", 
+    fontface="bold"
+  )
+
 ggsave(paste0("./pred/plot", "_",Sys.Date(),".jpg"))
   
 

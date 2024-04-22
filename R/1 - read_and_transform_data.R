@@ -145,7 +145,7 @@ box_df <-
   filter(!(team_abbreviation %in% c("LEB", "USA", "WORLD", "GIA", "DUR", "WEST", "EAST"))) %>%
   filter(min>0) %>%
   filter(!between(game_date, as.Date("2020-07-09"), as.Date("2020-10-11"))) %>%
-  filter(playoffs==0) %>%
+  #filter(playoffs==0) %>%
   group_by(athlete_display_name)%>%
   mutate(height_cm=if_else(is.na(height_cm), m_height, height_cm)) %>% ### impute
   group_by(athlete_display_name, season) %>%

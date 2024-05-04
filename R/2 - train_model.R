@@ -79,6 +79,6 @@ probabilities <- data.frame(p=predict(boost, dall), game_id=base_df$game_id) %>%
   filter(season==current_year) %>%
   mutate(prob_win=if_else(team_indicator==1, p, 1-p), 
          pred_win=if_else(prob_win>.5, 1, 0)) %>%
-  dplyr::select(game_id, game_date, team_abbreviation, win, team_score, home_team, prob_win, pred_win) %>%
+  dplyr::select(game_id, game_date, team_abbreviation, win, team_score, home_team, prob_win, pred_win, season, playoffs) %>%
   inner_join(conf, by="team_abbreviation") %>%
   inner_join(logos, by="team_abbreviation")

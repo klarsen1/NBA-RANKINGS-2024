@@ -1,18 +1,38 @@
 source("R/matchup.R")
+library(R.utils)
 sort(unique(box_df$team_abbreviation))
 
 
 ################### Model version used
 boost_coeff <- boost
 
-away_team_name <- "NO"
-home_team_name <- "OKC"
+away_team_name <- "IND"
+home_team_name <- "BOS"
 
-results <- c(0,0,0,0,0,0,0)
+season <- 2024
+
+games <- filter(probabilities, team_abbreviation %in% c(away_team_name, home_team_name)) %>%
+  filter(season==season & playoffs==1) %>%
+  group_by(game_id) %>%
+  filter(max(row_number())==2) %>%
+  filter(team_abbreviation==home_team_name) %>%
+  mutate(win_vector=if_else(win==1, 1, -1))
+  
+results <- rep(0,7)
+xx <- as.numeric(games$win_vector)
+print(xx)
+
+if (length(xx)>0){
+  for (i in 1:length(results)){
+    if (i<=length(xx)){
+      results[i] <- xx[i]
+    }
+  }
+}
 
 probs <- list()
 
-date <- today()+1
+date <- today()+2
 
   
 ################## Trade here
@@ -20,7 +40,7 @@ rostersxx <-
    mutate(rosters, injured=case_when(is.na(return_date) ~ 0, 
                                       return_date<=date ~ 0, 
                                       TRUE ~ 1)) %>%
-  mutate(injured=if_else(athlete_display_name %in% c("Kawhi Leonard"), 0, injured)) %>%
+  mutate(injured=if_else(athlete_display_name %in% c("Jamal Murray"), 0, injured)) %>%
   filter(injured==0)
   
   
